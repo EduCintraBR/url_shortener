@@ -5,8 +5,8 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
+<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+<p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
@@ -15,16 +15,22 @@
 <a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
 <a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
 <a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+<a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+<a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project is a URL Shortener service built using the [Nest](https://github.com/nestjs/nest) framework. It allows users to shorten long URLs and provides a simple API to manage these URLs. The project uses MongoDB for persistent storage and Redis for caching to improve performance.
+
+## Features
+
+- Shorten long URLs
+- Retrieve original URLs from shortened URLs
+- Track usage statistics
+- Cache frequently accessed URLs using Redis
+- RESTful API endpoints
 
 ## Project setup
 
@@ -45,18 +51,47 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+## Environment Variables
+
+Ensure you have a `.env` file with the following variables:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+MONGO_URI=mongodb://url_shortener_mongodb:27017
+REDIS_HOST=url_shortener_redis
+REDIS_PORT=6379
+REDIS_TTL=1800
 ```
+
+## Endpoints
+
+### Shorten URL
+
+- **URL:** `/api/shorten`
+- **Method:** `POST`
+- **Body:**
+  ```json
+  {
+    "longUrl": "https://example.com"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "shortUrl": "http://localhost:3000/abc123d4"
+  }
+  ```
+
+### Retrieve Original URL
+
+- **URL:** `/:shortUrl`
+- **Method:** `GET`
+- **Response:**
+  Redirects to the original long URL.
+
+## Using MongoDB and Redis
+
+- **MongoDB:** Used to store the mapping between long URLs and their shortened versions. The data is persisted in the `mongodb_data` volume.
+- **Redis:** Used to cache the mapping between short URLs and long URLs to reduce the load on MongoDB and improve response times. The cache TTL (time-to-live) is set to 1800 seconds (30 minutes).
 
 ## Deployment
 
@@ -90,9 +125,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
 - Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
