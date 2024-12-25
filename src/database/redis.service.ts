@@ -5,11 +5,11 @@ import { Inject, Injectable } from '@nestjs/common';
 export class RedisService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: CacheStore) {}
 
-  async saveInCache(key: string, value: any) {
-    await this.cacheManager.set(key, value);
+  async saveInCache(key: string, value: any, ttl?: number) {
+    await this.cacheManager.set(key, value, { ttl });
   }
 
-  async getFromCache(key: string) {
+  async getFromCache(key: string): Promise<string>{
     return this.cacheManager.get(key);
   }
 }
